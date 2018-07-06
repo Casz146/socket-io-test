@@ -79,6 +79,7 @@
 
         socket.on('messages', function (data) {
             $('.message_field').append('<div class="bg-secondary message p-2 text-white rounded">' + data + '</div><br>');
+            setInterval();
         });
 
         $('#sendbutton').click(function (e) {
