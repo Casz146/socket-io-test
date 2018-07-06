@@ -61,12 +61,12 @@
     <script>
         var socket = io.connect('http://localhost:8080')
         socket.on('messages', function(data) {
-            $('.message_field').append(data + '<br>');
+            $('.message_field').append('<div class="bg-primary message p-2 text-white">' + data + '</div><br>');
         });
 
         $('#sendbutton').click(function (e) {
             var message = $('#chat_input').val();
-            $('.message_field').append(message + '<br>')
+            $('.message_field').append('<div class="bg-success message text-white p-2">' + message + '</div><br>')
 
             socket.emit('messages', message);
         });
