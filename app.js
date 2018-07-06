@@ -27,7 +27,7 @@ var storeMessage = function(name, data) {
 }
 
 var storeChatter = function(chatname) {
-    chatters.push({name: name});
+    chatters.push({name: chatname});
 }
 
 io.sockets.on('connection', function (client) {
@@ -38,6 +38,11 @@ io.sockets.on('connection', function (client) {
     client.on('join', function (name) {
         client.nickname = name;
         client.broadcast.emit("add chatter", name)
+        chatters.forEach(function(chatter) {
+            client.emit("add chatter",chatter.name)
+        });
+
+        storeChatter(name);
 
         client.broadcast.emit("messages", name + " joined the chat")
         console.log(name + " joined the chat")

@@ -30,7 +30,7 @@
 <body>
     <div class="container border mt-3 rounded">
         <div class="row">
-            <div class="chatters col-4 bg-light border-right">
+            <div class="chatters col-4 bg-light border-right p-2 text-muted text-weight-bold">
             </div>
 
             <div class="col-8">
@@ -61,7 +61,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script>
-        var socket = io.connect('https://chattr-test-nodejs.herokuapp.com')
+        var socket = io.connect('http://localhost:8080')
 
         function updateScroll() {
             $(".message_field").animate({ scrollTop: $('.message_field')[0].scrollHeight }, 1)
@@ -73,6 +73,8 @@
             while (nickname.length < 1) {
                 nickname = prompt("Your nickname must be longer than 0 characters.")
             }
+
+            $('.chatters').append('<li>'+nickname+'</li>');
 
             socket.emit('join', nickname);
         });
