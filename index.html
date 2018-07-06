@@ -62,7 +62,9 @@
         crossorigin="anonymous"></script>
     <script>
         var socket = io.connect('https://chattr-test-nodejs.herokuapp.com')
-
+        
+        $(".message_field").animate({ scrollTop: $('.message_field')[0].scrollHeight}, 1000);
+        
         socket.on('connect', function (data) {
             $('#status').html('Connected to Chattr');
             nickname = prompt("What is your nickname?");
