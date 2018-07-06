@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+
+        .message_field {
+            height: 500px;
+            overflow: auto;
+        }
+
+        .form-group {
+            width: 100%;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container border mt-3 rounded">
+        <div class="row">
+            <div class="col-4 bg-light border-right">
+
+            </div>
+
+            <div class="col-8">
+                <div class="message_field text-secondary font-weight-bold p-2">CONNECTING...<br></div>
+                <div>
+                    <!-- <form class="form-inline" id="chat_form">
+                        <div class="form-group"> -->
+                    <div class="row">
+                        <input type="text" id="chat_input" class="col-9 textbox form-control">
+                        <button class="col-3 btn btn-secondary" id="sendbutton">Send</button>
+                    </div>
+                    <!-- </div>
+                    </form> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- JavaScript -->
+    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script>
+        var socket = io.connect('http://localhost:8080')
+        socket.on('messages', function(data) {
+            $('.message_field').append(data + '<br>');
+        });
+
+        $('#sendbutton').click(function (e) {
+            var message = $('#chat_input').val();
+            $('.message_field').append(message + '<br>')
+
+            socket.emit('messages', message);
+        });
+    </script>
+</body>
+
+</html>
