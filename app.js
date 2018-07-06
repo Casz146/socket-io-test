@@ -3,17 +3,17 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var redis = require('redis');
-var redisclient = redis.createClient();
+// var redisclient = redis.createClient();
 
 app.use(express.static(__dirname));
 
 /* REDIS TEST */
-redisclient.set("message1", "hello1");
-redisclient.set("message2", "hello2");
+// redisclient.set("message1", "hello1");
+// redisclient.set("message2", "hello2");
 
-redisclient.get("message1", function(err, reply){
-    console.log(reply);
-})
+// redisclient.get("message1", function(err, reply){
+//     console.log(reply);
+// })
 
 var messages = [];
 
