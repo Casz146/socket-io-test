@@ -10,9 +10,21 @@ io.on('connection', function(client) {
 
     // client.emit('messages', {hello: 'world'});
 
+    client.on('join', function(name) {
+        client.nickname = name;
+        console.log(name + " joined the chat")
+    });
+
     client.on('messages', function(data) {
-        console.log(data);
-        client.broadcast.emit("messages", data);
+        // console.log(data);
+        
+        var nickname = client.nickname;
+        
+        console.log(nickname + " said: " + data)
+        
+        client.broadcast.emit("messages", nickname + ": " + data);
+
+        client.emit("messages", nickname + ": " + data);
     });
 });
 

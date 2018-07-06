@@ -34,7 +34,7 @@
             </div>
 
             <div class="col-8">
-                <div class="message_field text-secondary font-weight-bold p-2">CONNECTING...<br></div>
+                <div class="message_field text-secondary font-weight-bold p-2" id="status">CONNECTING...<br></div>
                 <div>
                     <!-- <form class="form-inline" id="chat_form">
                         <div class="form-group"> -->
@@ -60,13 +60,21 @@
         crossorigin="anonymous"></script>
     <script>
         var socket = io.connect('http://localhost:8080')
+
+        socket.on('connect', function(data) {
+            $('#status').html('Connected to Chattr');
+            nickname = prompt("What is your nickname?");
+
+            socket.emit('join', nickname);
+        });
+        
         socket.on('messages', function(data) {
-            $('.message_field').append('<div class="bg-primary message p-2 text-white">' + data + '</div><br>');
+            $('.message_field').append('<div class="bg-secondary message p-2 text-white rounded">' + data + '</div><br>');
         });
 
         $('#sendbutton').click(function (e) {
             var message = $('#chat_input').val();
-            $('.message_field').append('<div class="bg-success message text-white p-2">' + message + '</div><br>')
+            // $('.message_field').append('<div class="bg-success message text-white p-2">' + message + '</div><br>')
 
             socket.emit('messages', message);
         });
