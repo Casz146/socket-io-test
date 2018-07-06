@@ -17,12 +17,17 @@ var port = process.env.PORT || 8080
 // })
 
 var messages = [];
+var chatters = [];
 
 var storeMessage = function(name, data) {
     messages.push({name: name, data: data});
     if (messages.length > 10) {
         messages.shift();
     }
+}
+
+var storeChatter = function(chatname) {
+    chatters.push({name: name});
 }
 
 io.sockets.on('connection', function (client) {
@@ -32,6 +37,8 @@ io.sockets.on('connection', function (client) {
 
     client.on('join', function (name) {
         client.nickname = name;
+        client.broadcast.emit("add chatter", name)
+
         client.broadcast.emit("messages", name + " joined the chat")
         console.log(name + " joined the chat")
         messages.forEach(function(message) {

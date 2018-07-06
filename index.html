@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+    <link rel="stylesheet" href="animate.css">
     <style>
         body {
             box-sizing: border-box;
@@ -29,8 +30,7 @@
 <body>
     <div class="container border mt-3 rounded">
         <div class="row">
-            <div class="col-4 bg-light border-right">
-
+            <div class="chatters col-4 bg-light border-right">
             </div>
 
             <div class="col-8">
@@ -64,7 +64,7 @@
         var socket = io.connect('https://chattr-test-nodejs.herokuapp.com')
 
         function updateScroll() {
-            $(".message_field").animate({ scrollTop: $('.message_field')[0].scrollHeight }, 1000)
+            $(".message_field").animate({ scrollTop: $('.message_field')[0].scrollHeight }, 1)
         }
 
         socket.on('connect', function (data) {
@@ -78,8 +78,14 @@
         });
 
         socket.on('messages', function (data) {
-            $('.message_field').append('<div class="bg-secondary message p-2 text-white rounded">' + data + '</div><br>');
-            setInterval(updateScroll, 1);
+            $('.message_field').append('<div class="bg-secondary animated bounce message p-2 text-white rounded">' + data + '</div><br>');
+            updateScroll();
+        });
+
+        socket.on('add chatter', function(name) {
+            console.log(name);
+            var chatter = $('<li>'+name+'</li>').data('name', name);
+            $('.chatters').append(chatter)   
         });
 
         $('#sendbutton').click(function (e) {
