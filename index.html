@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Chat Application</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
@@ -34,7 +34,9 @@
             </div>
 
             <div class="col-8">
-                <div class="message_field text-secondary font-weight-bold p-2" id="status">CONNECTING...<br></div>
+                <div class="message_field text-secondary font-weight-bold p-2">
+                    <div id="status" class="pb-2">CONNECTING...</div>
+                </div>
                 <div>
                     <!-- <form class="form-inline" id="chat_form">
                         <div class="form-group"> -->
@@ -61,22 +63,36 @@
     <script>
         var socket = io.connect('http://localhost:8080')
 
-        socket.on('connect', function(data) {
+        socket.on('connect', function (data) {
             $('#status').html('Connected to Chattr');
             nickname = prompt("What is your nickname?");
-
+            while (nickname.length < 1) {
+                nickname = prompt("What is your nickname?")
+            } 
+            
             socket.emit('join', nickname);
         });
-        
-        socket.on('messages', function(data) {
+
+        socket.on('messages', function (data) {
             $('.message_field').append('<div class="bg-secondary message p-2 text-white rounded">' + data + '</div><br>');
         });
 
         $('#sendbutton').click(function (e) {
             var message = $('#chat_input').val();
             // $('.message_field').append('<div class="bg-success message text-white p-2">' + message + '</div><br>')
-
             socket.emit('messages', message);
+
+            $('#chat_input').val('');
+        });
+
+        $('#chat_input').keypress(function (event) {
+            if (event.keyCode == 13) {
+                var message = $('#chat_input').val();
+                // $('.message_field').append('<div class="bg-success message text-white p-2">' + message + '</div><br>')
+                socket.emit('messages', message);
+
+                $('#chat_input').val('');
+            }
         });
     </script>
 </body>
