@@ -63,9 +63,9 @@
     <script>
         var socket = io.connect('https://chattr-test-nodejs.herokuapp.com')
 
-        setInterval(function () {
-            $("#message_field").animate({ scrollTop: $('#message_field')[0].scrollHeight }, 1000)
-        }, 500);
+        function updateScroll() {
+            $(".message_field").animate({ scrollTop: $('.message_field')[0].scrollHeight }, 1000)
+        }
 
         socket.on('connect', function (data) {
             $('#status').html('Connected to Chattr');
@@ -79,7 +79,7 @@
 
         socket.on('messages', function (data) {
             $('.message_field').append('<div class="bg-secondary message p-2 text-white rounded">' + data + '</div><br>');
-            setInterval();
+            setInterval(updateScroll, 100);
         });
 
         $('#sendbutton').click(function (e) {
