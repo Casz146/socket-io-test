@@ -71,7 +71,7 @@
             $('#status').html('Connected to Chattr');
             nickname = prompt("What is your nickname?");
             while (nickname.length < 1) {
-                nickname = prompt("What is your nickname?")
+                nickname = prompt("Your nickname must be longer than 0 characters.")
             }
 
             socket.emit('join', nickname);
